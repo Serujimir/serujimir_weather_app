@@ -90,7 +90,6 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
                 sharedPreferencesEditor.putString("Current_city", city.getCity());
                 sharedPreferencesEditor.apply();
                 onCityClickListener.onCityClick(city);
-
             }
         });
     }
