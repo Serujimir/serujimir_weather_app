@@ -8,10 +8,10 @@
     <item
         android:id="@+id/itWeather"
         android:icon="@drawable/ic_weather"
-        android:title="Weather" />
+        android:title="Day" />
     <item
         android:id="@+id/itForecast"
         android:icon="@drawable/ic_forecast"
-        android:title="Forecast"
+        android:title="5-Day"
         />
 </menu>

@@ -72,12 +72,12 @@ public class WeatherActivity extends AppCompatActivity {
         progressDialog.setTitle("Forecasting...");
         progressDialog.create();
         progressDialog.setCanceledOnTouchOutside(false);
-        tvForecast = findViewById(R.id.tvForecast);
+//        tvForecast = findViewById(R.id.tvCurrCity);
         sharedPreferences = getSharedPreferences("Current_city",MODE_PRIVATE);
         current_city = sharedPreferences.getString("Current_city","Yakutsk");
         tvForecast.setText("Forecast for: " + current_city.substring(0,1).toUpperCase() + current_city.substring(1).toLowerCase());
 
-        imTurbine = findViewById(R.id.imTurbine);
+//        imTurbine = findViewById(R.id.imTurbine);
         AnimationDrawable animationDrawable = (AnimationDrawable) imTurbine.getDrawable();
         animationDrawable.start();
 
@@ -86,19 +86,19 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     public void init() {
-        linearLayout = findViewById(R.id.linearLayout);
-        tvCurrTemp = findViewById(R.id.tvCurrTemp);
+//        linearLayout = findViewById(R.id.linearLayout);
+//        tvCurrTemp = findViewById(R.id.tvCurrTemp);
         tvCurrTemp.setText("Pls wait...");
-        tvCurrWeather = findViewById(R.id.tvCurrWeather);
-        tvCurrWeatherDesk = findViewById(R.id.tvCurrWeatherDesk);
-        tvCurrTime = findViewById(R.id.tvCurrTime);
+//        tvCurrWeather = findViewById(R.id.tvCurrWeather);
+//        tvCurrWeatherDesk = findViewById(R.id.tvCurrWeatherDesk);
+//        tvCurrTime = findViewById(R.id.tvCurrTime);
 
-        tvWindDegrees = findViewById(R.id.tvWindDegrees);
-        tvWindSpeed = findViewById(R.id.tvWindSpeed);
-        tvSunrise = findViewById(R.id.tvSunrise);
-        tvSunset = findViewById(R.id.tvSunset);
+//        tvWindDegrees = findViewById(R.id.tvWindDegrees);
+//        tvWindSpeed = findViewById(R.id.tvWindSpeed);
+        tvSunrise = findViewById(R.id.tvCurrCity);
+        tvSunset = findViewById(R.id.tvCurrCity);
 
-        dayRecyclerView = findViewById(R.id.dayRecyclerView);
+//        dayRecyclerView = findViewById(R.id.dayRecyclerView);
         dayForecastAdapter = new DayForecastAdapter(getApplicationContext(), dayForecastArrayList);
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
         dayRecyclerView.setAdapter(dayForecastAdapter);

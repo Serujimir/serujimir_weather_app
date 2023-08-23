@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -142,7 +144,7 @@ public class ForecastFragment extends Fragment {
 
         constraintLayout = view.findViewById(R.id.consLayout);
 
-        getActivity().runOnUiThread(new Runnable() {
+        requireActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 setInitionalData1();
@@ -167,7 +169,12 @@ public class ForecastFragment extends Fragment {
                     okHttpClient.newCall(request).enqueue(new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
-
+                            requireActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
 
                         @Override
@@ -226,7 +233,7 @@ public class ForecastFragment extends Fragment {
                                         else {
                                             break;
                                         }
-                                        getActivity().runOnUiThread(new Runnable() {
+                                        requireActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
                                                 Animation animation1 = AnimationUtils.loadAnimation(getContext(),R.anim.adapter_update);
@@ -235,7 +242,7 @@ public class ForecastFragment extends Fragment {
                                                 timer.schedule(new TimerTask()  {
                                                     @Override
                                                     public void run() {
-                                                        getActivity().runOnUiThread(new Runnable() {
+                                                        requireActivity().runOnUiThread(new Runnable() {
                                                             @Override
                                                             public void run() {
                                                                 weekForecastAdapter.Update();
@@ -248,16 +255,26 @@ public class ForecastFragment extends Fragment {
                                     }
 
                                 } catch (JSONException e) {
-                                    throw new RuntimeException(e);
+                                    requireActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 }
                             } catch (RuntimeException e) {
-                                throw new RuntimeException(e);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
 
                         }
                     });
                 } catch (IOException e) {
-                    getActivity().runOnUiThread(new Runnable() {
+                    requireActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             tvWeekForecast.setText("No Internet");
@@ -274,7 +291,7 @@ public class ForecastFragment extends Fragment {
     }
 
     public void Restart() {
-        getActivity().runOnUiThread(new Runnable() {
+        requireActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 setInitionalData1();

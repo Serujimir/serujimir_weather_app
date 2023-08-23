@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -53,25 +54,24 @@ import okhttp3.Response;
  */
 public class WeatherFragment extends Fragment implements CityAdapter.OnCityClickListener {
     View view;
-
     SharedPreferences sharedPreferences;
+
+    ImageButton btnReload;
+    TextView tvCurrWeatherCity, tvCurrWeatherDesk, tvCurrWeatherTemp;
+    ImageView ivCurrWeather;
+
     ArrayList<DayForecast> dayForecastArrayList = new ArrayList<DayForecast>();
-
-    RecyclerView dayRecyclerView;
-
+    ArrayList<WeatherSubItem> weatherSubItemArrayList = new ArrayList<WeatherSubItem>();
+    RecyclerView dayRecyclerView, rvWeatherSubItem;
     DayForecastAdapter dayForecastAdapter;
+    WeatherSubItemAdapter weatherSubItemAdapter;
 
     OkHttpClient okHttpClient;
     Date dayWeek;
 
-    TextView tvCurrTemp, tvCurrWeatherDesk, tvCurrTime, tvWindDegrees, tvWindSpeed, tvSunrise, tvSunset, tvForecast;
-    ImageView tvCurrWeather;
-    ImageButton btnReload;
+    String current_city;
 
-    String first_temp, second_temp, current_city;
-    LinearLayout linearLayout;
-
-    ImageView imTurbine;
+//    ImageView imTurbine;
     ProgressDialog progressDialog;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -138,12 +138,9 @@ public class WeatherFragment extends Fragment implements CityAdapter.OnCityClick
         progressDialog.setTitle("Forecasting...");
         progressDialog.create();
         progressDialog.setCanceledOnTouchOutside(false);
-        tvForecast = view.findViewById(R.id.tvForecast);
 
-
-        imTurbine = view.findViewById(R.id.imTurbine);
-        AnimationDrawable animationDrawable = (AnimationDrawable) imTurbine.getDrawable();
-        animationDrawable.start();
+//        AnimationDrawable animationDrawable = (AnimationDrawable) imTurbine.getDrawable();
+//        animationDrawable.start();
 
         Log.d("Check", "setContentView() Check!");
         init();
@@ -151,24 +148,6 @@ public class WeatherFragment extends Fragment implements CityAdapter.OnCityClick
         return view;
     }
     public void init() {
-        dayForecastArrayList.clear();
-        sharedPreferences = getActivity().getSharedPreferences("Current_city",MODE_PRIVATE);
-        current_city = sharedPreferences.getString("Current_city","Yakutsk");
-        tvForecast.setText("Forecast for: " + current_city.substring(0,1).toUpperCase() + current_city.substring(1).toLowerCase());
-
-        CityAdapter.OnCityClickListener onCityClickListener = new CityAdapter.OnCityClickListener() {
-            @Override
-            public void onCityClick(City city) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tvForecast.setText("Forecast for: " + sharedPreferences.getString("Current_city","Yakutsk").substring(0,1).toUpperCase() +
-                                sharedPreferences.getString("Current_city","Yakutsk").substring(1).toLowerCase());
-                    }
-                });
-            }
-        };
-
         btnReload = view.findViewById(R.id.btnReload);
         btnReload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,23 +156,43 @@ public class WeatherFragment extends Fragment implements CityAdapter.OnCityClick
             }
         });
 
-        linearLayout = view.findViewById(R.id.linearLayout);
-        tvCurrTemp = view.findViewById(R.id.tvCurrTemp);
-        tvCurrTemp.setText("Pls wait...");
-        tvCurrWeather = view.findViewById(R.id.tvCurrWeather);
-        tvCurrWeatherDesk = view.findViewById(R.id.tvCurrWeatherDesk);
-        tvCurrTime = view.findViewById(R.id.tvCurrTime);
+        tvCurrWeatherCity = view.findViewById(R.id.tvCurrWeatherCity);
+        tvCurrWeatherCity.setText("Loading...");
+        tvCurrWeatherDesk = view.findViewById(R.id.tvWeatherDesk);
+        tvCurrWeatherDesk.setText("Loading...");
+        tvCurrWeatherTemp = view.findViewById(R.id.tvCurrWeatherTemp);
+        tvCurrWeatherTemp.setText("Loading...");
 
-        tvWindDegrees = view.findViewById(R.id.tvWindDegrees);
-        tvWindSpeed = view.findViewById(R.id.tvWindSpeed);
-        tvSunrise = view.findViewById(R.id.tvSunrise);
-        tvSunset = view.findViewById(R.id.tvSunset);
+        ivCurrWeather = view.findViewById(R.id.ivCurrWeatherIcon);
 
-        dayRecyclerView = view.findViewById(R.id.dayRecyclerView);
+        dayRecyclerView = view.findViewById(R.id.rvDayForecast);
+        rvWeatherSubItem = view.findViewById(R.id.rvWeatherSubItem);
+
+        dayForecastArrayList.clear();
+        weatherSubItemArrayList.clear();
+        sharedPreferences = getActivity().getSharedPreferences("Current_city",MODE_PRIVATE);
+        current_city = sharedPreferences.getString("Current_city","Yakutsk");
+
+        weatherSubItemAdapter = new WeatherSubItemAdapter(getContext(), weatherSubItemArrayList);
+        rvWeatherSubItem.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        rvWeatherSubItem.setAdapter(weatherSubItemAdapter);
+
         dayForecastAdapter = new DayForecastAdapter(getContext(), dayForecastArrayList);
         dayRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         dayRecyclerView.setAdapter(dayForecastAdapter);
 
+//        weatherSubItemArrayList.add(new WeatherSubItem("Loading...", "visibility", "Loading..."));
+//        weatherSubItemArrayList.add(new WeatherSubItem("Loading...", "visibility", "Loading..."));
+//        weatherSubItemArrayList.add(new WeatherSubItem("Loading...", "visibility", "Loading..."));
+//        weatherSubItemArrayList.add(new WeatherSubItem("Loading...", "visibility", "Loading..."));
+//        weatherSubItemArrayList.add(new WeatherSubItem("Loading...", "visibility", "Loading..."));
+//        weatherSubItemArrayList.add(new WeatherSubItem("Loading...", "visibility", "Loading..."));
+        weatherSubItemArrayList.add(new WeatherSubItem("Coordinates:\nSpeed: 25 meter/sec\nDegreed: 248", "wind"));
+        weatherSubItemArrayList.add(new WeatherSubItem("Coordinates:\nSunrise: 1180909\nSunset: 594949499", "sun"));
+        weatherSubItemArrayList.add(new WeatherSubItem("Coordinates:\n10000km", "visibility"));
+        weatherSubItemArrayList.add(new WeatherSubItem("Coordinates:\n65%", "humidity"));
+        weatherSubItemArrayList.add(new WeatherSubItem("Coordinates:\n1014mm", "pressure"));
+        weatherSubItemArrayList.add(new WeatherSubItem("Coordinates:\nLongitude: 64.4949 \nLatitude: 67.5955", "coordinates"));
         dayForecastArrayList.add(new DayForecast("Loading","...","01d"));
 
         Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
@@ -230,7 +229,12 @@ public class WeatherFragment extends Fragment implements CityAdapter.OnCityClick
                     okHttpClient.newCall(request).enqueue(new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
-
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
 
                         @Override
@@ -241,70 +245,81 @@ public class WeatherFragment extends Fragment implements CityAdapter.OnCityClick
                             try {
                                 JSONObject jsonObjectObs = new JSONObject(responseData);
 
-                                JSONObject main = jsonObjectObs.getJSONObject("main");
-                                String temp = String.valueOf(Math.round(main.getDouble("temp"))) + "°";
+                                JSONObject coord = jsonObjectObs.getJSONObject("coord");
+                                String lon = coord.getString("lon");
+                                String lat = coord.getString("lat");
 
-                                JSONArray weather = jsonObjectObs.getJSONArray("weather");
-                                JSONObject weather_data = weather.getJSONObject(0);
-                                String description = weather_data.getString("description");
-                                String icon = weather_data.getString("icon");
+                                JSONArray weather_array = jsonObjectObs.getJSONArray("weather");
+                                JSONObject weather = weather_array.getJSONObject(0);
+                                String description = weather.getString("description");
+                                String icon = weather.getString("icon");
+
+                                JSONObject main = jsonObjectObs.getJSONObject("main");
+                                String temp = main.getString("temp");
+                                String pressure = main.getString("pressure");
+                                String humidity = main.getString("humidity");
+
+                                String visibility = jsonObjectObs.getString("visibility");
 
                                 JSONObject wind = jsonObjectObs.getJSONObject("wind");
-                                String wind_deg = wind.getString("deg") + "°";
-                                String wind_speed = String.valueOf(Math.round(wind.getDouble("speed")) + " meter/sec");
+                                String speed = wind.getString("speed");
+                                String deg = wind.getString("deg");
+
+                                String dt = jsonObjectObs.getString("dt");
 
                                 JSONObject sys = jsonObjectObs.getJSONObject("sys");
-                                int sunrise = sys.getInt("sunrise");
-                                int sunset = sys.getInt("sunset");
-                                String time_sunrise = new SimpleDateFormat("HH:mm").format(new Date(sunrise * 1000L));
-                                String time_sunset = new SimpleDateFormat("HH:mm").format(new Date(sunset * 1000L));
+                                String country = sys.getString("country");
+                                int sunrise_int = Integer.parseInt(sys.getString("sunrise"));
+                                int sunset_int = Integer.parseInt(sys.getString("sunset"));
+                                @SuppressLint("SimpleDateFormat") String sunrise = new SimpleDateFormat("HH:mm").format(new Date(sunrise_int * 1000L));
+                                @SuppressLint("SimpleDateFormat") String sunset = new SimpleDateFormat("HH:mm").format(new Date(sunset_int * 1000L));
 
-                                getActivity().runOnUiThread(new Runnable() {
+                                String name = jsonObjectObs.getString("name");
+
+                                requireActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-
-
-                                        int dateTime = 0;
-                                        try {dateTime = (int) jsonObjectObs.getInt("dt");} catch (
-                                                JSONException e) {throw new RuntimeException(e);}
-                                        @SuppressLint("SimpleDateFormat")
-                                        String result = new java.text.SimpleDateFormat("HH:mm").format(new Date(dateTime * 1000L));
-
-                                        tvCurrTime.setText("Actual on " + result);
-                                        setDayIcon(tvCurrWeather, icon);
+                                        setDayIcon(ivCurrWeather, icon);
+                                        tvCurrWeatherTemp.setText(temp + "°C");
                                         tvCurrWeatherDesk.setText(description.substring(0,1).toUpperCase() + description.substring(1));
-                                        tvCurrTemp.setText(temp);
+                                        tvCurrWeatherCity.setText(name + ", " + country);
 
-                                        tvWindDegrees.setText(wind_deg);
-                                        tvWindSpeed.setText(wind_speed);
+                                        weatherSubItemArrayList.clear();
 
-                                        tvSunrise.setText(time_sunrise);
-                                        tvSunset.setText(time_sunset);
+                                        weatherSubItemArrayList.add(new WeatherSubItem("Wind:\nSpeed: " + speed + " meter/sec" + "\nDegrees: " + deg + "°", "wind"));
 
+                                        weatherSubItemArrayList.add(new WeatherSubItem("Sun:\nSunrise: " + sunrise + "\nSunset: " + sunset,"sun"));
+
+                                        weatherSubItemArrayList.add(new WeatherSubItem("Visibility:\n" + visibility + " meters","visibility"));
+
+                                        weatherSubItemArrayList.add(new WeatherSubItem("Humidity:\n" + humidity +"%","humidity"));
+
+                                        weatherSubItemArrayList.add(new WeatherSubItem("Pressure:\n" + pressure + " mm.","pressure"));
+
+                                        weatherSubItemArrayList.add(new WeatherSubItem("Coordinates:\nLongitude: " + lon + "\nLatitude: " + lat,"coordinates"));
+
+                                        weatherSubItemAdapter.Update();
 
                                         Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.adapter_update_scale);
-                                        tvCurrTime.startAnimation(animation);
-                                        tvCurrWeather.startAnimation(animation);
                                         tvCurrWeatherDesk.startAnimation(animation);
-                                        tvCurrTemp.startAnimation(animation);
 
                                     }
                                 });
                             } catch (JSONException e) {
-                                getActivity().runOnUiThread(new Runnable() {
+                                requireActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(getContext(), "Error " + e, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
                         }
                     });
                 } catch (IOException e) {
-                    getActivity().runOnUiThread(new Runnable() {
+                    requireActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            tvCurrTemp.setText("No Internet");
+                            tvCurrWeatherTemp.setText("No internet");
                         }
                     });
                 }
@@ -326,7 +341,12 @@ public class WeatherFragment extends Fragment implements CityAdapter.OnCityClick
                     okHttpClient.newCall(request).enqueue(new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
-
+                            requireActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
 
                         @Override
@@ -363,7 +383,7 @@ public class WeatherFragment extends Fragment implements CityAdapter.OnCityClick
                                         else {
                                             break;
                                         }
-                                        getActivity().runOnUiThread(new Runnable() {
+                                        requireActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
                                                 dayForecastAdapter.Update();
@@ -371,19 +391,29 @@ public class WeatherFragment extends Fragment implements CityAdapter.OnCityClick
                                         });
                                     }
                                 } catch (JSONException e) {
-                                    throw new RuntimeException(e);
+                                    requireActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 }
                             } catch (RuntimeException e) {
-                                throw new RuntimeException(e);
+                                requireActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
 
                         }
                     });
                 } catch (IOException e) {
-                    getActivity().runOnUiThread(new Runnable() {
+                    requireActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            tvCurrTemp.setText("No Internet");
+                            tvCurrWeatherTemp.setText("No Internet");
                         }
                     });
                 }
@@ -400,7 +430,7 @@ public class WeatherFragment extends Fragment implements CityAdapter.OnCityClick
         Thread refresh = new Thread(new Runnable() {
             @Override
             public void run() {
-                getActivity().runOnUiThread(new Runnable() {
+                requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         progressDialog.show();
@@ -414,7 +444,7 @@ public class WeatherFragment extends Fragment implements CityAdapter.OnCityClick
         refresh.start();
     }
     public void setDayIcon(final ImageView tvCurrWeather, final String icon) {
-        getActivity().runOnUiThread(new Runnable() {
+        requireActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 switch (icon) {
@@ -481,12 +511,12 @@ public class WeatherFragment extends Fragment implements CityAdapter.OnCityClick
 
     @Override
     public void onCityClick(City city) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                tvForecast.setText("Forecast for: " + sharedPreferences.getString("Current_city","Yakutsk").substring(0,1).toUpperCase() +
-                        sharedPreferences.getString("Current_city","Yakutsk").substring(1).toLowerCase());
-            }
-        });
+//        getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                tvForecast.setText("Forecast for: " + sharedPreferences.getString("Current_city","Yakutsk").substring(0,1).toUpperCase() +
+//                        sharedPreferences.getString("Current_city","Yakutsk").substring(1).toLowerCase());
+//            }
+//        });
     }
 }
