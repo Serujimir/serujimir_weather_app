@@ -187,12 +187,12 @@ public class WeatherFragment extends Fragment implements CityAdapter.OnCityClick
 //        weatherSubItemArrayList.add(new WeatherSubItem("Loading...", "visibility", "Loading..."));
 //        weatherSubItemArrayList.add(new WeatherSubItem("Loading...", "visibility", "Loading..."));
 //        weatherSubItemArrayList.add(new WeatherSubItem("Loading...", "visibility", "Loading..."));
-        weatherSubItemArrayList.add(new WeatherSubItem("Coordinates:\nSpeed: 25 meter/sec\nDegreed: 248", "wind"));
-        weatherSubItemArrayList.add(new WeatherSubItem("Coordinates:\nSunrise: 1180909\nSunset: 594949499", "sun"));
-        weatherSubItemArrayList.add(new WeatherSubItem("Coordinates:\n10000km", "visibility"));
-        weatherSubItemArrayList.add(new WeatherSubItem("Coordinates:\n65%", "humidity"));
-        weatherSubItemArrayList.add(new WeatherSubItem("Coordinates:\n1014mm", "pressure"));
-        weatherSubItemArrayList.add(new WeatherSubItem("Coordinates:\nLongitude: 64.4949 \nLatitude: 67.5955", "coordinates"));
+        weatherSubItemArrayList.add(new WeatherSubItem(getString(R.string.loading), "wind"));
+        weatherSubItemArrayList.add(new WeatherSubItem(getString(R.string.loading), "sun"));
+        weatherSubItemArrayList.add(new WeatherSubItem(getString(R.string.loading), "visibility"));
+        weatherSubItemArrayList.add(new WeatherSubItem(getString(R.string.loading), "humidity"));
+        weatherSubItemArrayList.add(new WeatherSubItem(getString(R.string.loading), "pressure"));
+        weatherSubItemArrayList.add(new WeatherSubItem(getString(R.string.loading), "coordinates"));
         dayForecastArrayList.add(new DayForecast("Loading","...","01d"));
 
         Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);

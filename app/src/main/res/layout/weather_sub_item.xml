@@ -32,7 +32,7 @@
             android:background="@drawable/weather_sub_item_background"
             android:fontFamily="sans-serif-smallcaps"
             android:padding="8dp"
-            android:text="Wind"
+            android:text="@string/loading"
             android:textAlignment="textStart"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="Loading..."
+            android:text="@string/loading"
             android:textAlignment="center"
             android:textColor="#FFFFFF" />
 
@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="Loading..."
+            android:text="@string/loading"
             android:textAlignment="center"
             android:textColor="#FFFFFF" />
 

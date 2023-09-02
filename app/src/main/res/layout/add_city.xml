@@ -16,16 +16,16 @@
             android:layout_marginBottom="16dp"
             android:fontFamily="sans-serif-smallcaps"
             android:gravity="center"
-            android:text="Enter city:" />
+            android:text="@string/hint_addCity" />
 
         <EditText
             android:id="@+id/edCity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginBottom="16dp"
             android:ems="10"
             android:fontFamily="sans-serif-smallcaps"
-            android:hint="Example: London"
+            android:hint="@string/hint_hintAddCity"
             android:inputType="text" />
 
         <Button
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="Add" />
+            android:text="@string/add" />
 
         <Button
             android:id="@+id/btnClose"
@@ -42,6 +42,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="Close" />
+            android:text="@string/close" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

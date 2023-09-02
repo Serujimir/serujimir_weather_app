@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -124,11 +125,11 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView tvCity;
-        final Button btnDelete;
+        final ImageButton btnDelete;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvCity = itemView.findViewById(R.id.tvCity);
-            btnDelete = itemView.findViewById(R.id.btnDelete);
+            btnDelete = itemView.findViewById(R.id.imBtnDelete);
         }
     }
 }

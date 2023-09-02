@@ -22,7 +22,7 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-smallcaps"
             android:gravity="center"
-            android:text="Loading..."
+            android:text="@string/loading"
             android:textColor="#FFFFFF" />
 
         <ImageView
@@ -39,7 +39,7 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-smallcaps"
             android:gravity="center"
-            android:text="Loading..."
+            android:text="@string/loading"
             android:textColor="#FFFFFF" />
 
         <TextView
