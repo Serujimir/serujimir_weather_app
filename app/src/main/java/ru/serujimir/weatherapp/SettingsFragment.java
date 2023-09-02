@@ -44,6 +44,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -73,9 +74,12 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
     ProgressDialog progressDialog;
     TextView tvCurrCity;
     String activity_city;
+    String responce_city = null;
+    String databaseCities;
     int response_code;
     Button btnAddCity;
     View view;
+    int database_size;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -140,6 +144,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
 
     public void init() {
 
+
         tvCurrCity.setText("Current city: " + sharedPreferences.getString("Current_city","Yakutsk").substring(0,1).toUpperCase() +
                 sharedPreferences.getString("Current_city","Yakutsk").substring(1).toLowerCase());
 
@@ -177,6 +182,9 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                                     }
                                 });
                                 if (!edCity.getText().toString().isEmpty()) {
+                                    database_size = 0;
+
+
                                     String city = edCity.getText().toString().trim();
 
                                     Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
@@ -214,17 +222,20 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                                                 try {
                                                     JSONObject jsonObjectObs = new JSONObject(responseData);
                                                     try {
+                                                        responce_city = jsonObjectObs.getString("name");
                                                         response_code = (int) jsonObjectObs.get("cod");
                                                     }catch (Exception e)
                                                     {
                                                         getActivity().runOnUiThread(new Runnable() {
                                                             @Override
                                                             public void run() {
-                                                                Toast.makeText(getContext(), "Error...", Toast.LENGTH_SHORT).show();
+                                                                progressDialog.dismiss();
+                                                                Toast.makeText(getContext(), "Error, City not found", Toast.LENGTH_SHORT).show();
                                                             }
                                                         });
+                                                        return;
                                                     }
-                                                    if(response_code == 404 || response_code == 0)  {
+                                                    if(response_code != 200)  {
                                                         getActivity().runOnUiThread(new Runnable() {
                                                             @Override
                                                             public void run() {
@@ -232,15 +243,67 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                                                                 Toast.makeText(getContext(), "City not found", Toast.LENGTH_SHORT).show();
                                                             }
                                                         });
+                                                        return;
                                                     }
-                                                    else {
+                                                    else if (response_code == 200) {
+
+                                                        int dSize = databaseSize();
+
+                                                        citiesDatabase = databaseHelper.open();
+                                                        Cursor cursor = citiesDatabase.rawQuery("select * from " + DatabaseHelper.TABLE, null);
+
+                                                        int cityId = cursor.getColumnIndex("city");
+                                                        cursor.moveToFirst();
+                                                        databaseCities = cursor.getString(cityId);
+
+                                                        if(Objects.equals(databaseCities, responce_city)) {
+                                                            requireActivity().runOnUiThread(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    Toast.makeText(getContext(), "Duplicate city!", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+                                                            progressDialog.dismiss();
+                                                            database_size = 0;
+                                                            return;
+                                                        }
+                                                        else {
+                                                            for (int i = 0; i <= dSize; i++) {
+                                                                if (cursor.moveToNext()) {
+                                                                    databaseCities = cursor.getString(cityId);
+                                                                    if (Objects.equals(databaseCities, responce_city)) {
+                                                                        requireActivity().runOnUiThread(new Runnable() {
+                                                                            @Override
+                                                                            public void run() {
+                                                                                Toast.makeText(getContext(), "Duplicate city!", Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        });
+                                                                        progressDialog.dismiss();
+                                                                        database_size = 0;
+                                                                        return;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+
+                                                        cursor.close();
+                                                        citiesDatabase.close();
+
+
+
+
                                                         Log.d("Test", "onResponce!");
                                                         Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
                                                         DatabaseHelper databaseHelper1 = new DatabaseHelper(getContext());
                                                         databaseHelper1.create_db();
                                                         SQLiteDatabase sqLiteDatabase = databaseHelper1.open();
                                                         ContentValues contentValues = new ContentValues();
-                                                        contentValues.put("city", city);
+                                                        if(responce_city != null) {
+                                                            contentValues.put("city", responce_city);
+                                                        }
+                                                        else {
+                                                            Toast.makeText(getContext(), "Incorrect city!", Toast.LENGTH_SHORT).show();
+                                                        }
                                                         sqLiteDatabase.insert("citiesDatabases", null, contentValues);
                                                         CityAdapter cityAdapter = new CityAdapter(getContext(), cityArrayList, onCityClickListener);
                                                         getActivity().runOnUiThread(new Runnable() {
@@ -371,5 +434,19 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                         sharedPreferences.getString("Current_city","Yakutsk").substring(1).toLowerCase());
             }
         });
+    }
+    public int databaseSize() {
+        DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
+        citiesDatabase = databaseHelper.open();
+        cursor = citiesDatabase.rawQuery("select * from " + DatabaseHelper.TABLE, null);
+        if(cursor.moveToFirst()) {
+            do {
+                database_size++;
+            }while (cursor.moveToNext());
+        }
+        Log.d("Test", String.valueOf(database_size));
+        cursor.close();
+        citiesDatabase.close();
+        return database_size;
     }
 }

@@ -73,6 +73,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
                             DatabaseHelper databaseHelper = new DatabaseHelper(layoutInflater.getContext());
                             databaseHelper.create_db();
                             sqLiteDatabase = databaseHelper.open();
+                            onCityClickListener.onCityClick(city);
                             sqLiteDatabase.delete("citiesDatabases", "_id = " + city.getId(), null);;
                             sqLiteDatabase.close();
                             Update();
