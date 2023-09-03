@@ -5,6 +5,7 @@
     android:id="@+id/consLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_transparent"
     android:padding="8dp"
     tools:context=".ForecastFragment">
 
@@ -15,6 +16,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="Week Forecast"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

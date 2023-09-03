@@ -71,10 +71,10 @@ public class WeatherSubItemAdapter extends RecyclerView.Adapter<WeatherSubItemAd
                 imageView.setImageResource(R.drawable.ic_sun_rise_set);
                 break;
             case "pressure":
-                imageView.setImageResource(R.drawable.ic_humidity);
+                imageView.setImageResource(R.drawable.ic_pressure);
                 break;
             case "coordinates":
-                imageView.setImageResource(R.drawable.ic_humidity);
+                imageView.setImageResource(R.drawable.ic_coordinates);
                 break;
         }
     }
