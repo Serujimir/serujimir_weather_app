@@ -54,31 +54,24 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(layoutInflater.getContext());
-                builder.setTitle("Do you wanna delete: " +city.getCity() + " ?");
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                builder.setTitle(R.string.delete_confirmation +city.getCity() + " ?");
+                builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 });
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(city.getCity().equals("Yakutsk") || city.getCity().equals("yakutsk") || city.getCity().equals("якутск") || city.getCity().equals("Якутск"))
-                        {
-                            Toast.makeText(layoutInflater.getContext(), "Sorry, you can't delete Citadel of Yakutia!", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            sharedPreferencesEditor.putString("Current_city","Yakutsk");
-                            sharedPreferencesEditor.apply();
-                            DatabaseHelper databaseHelper = new DatabaseHelper(layoutInflater.getContext());
-                            databaseHelper.create_db();
-                            sqLiteDatabase = databaseHelper.open();
-                            onCityClickListener.onCityClick(city);
-                            sqLiteDatabase.delete("citiesDatabases", "_id = " + city.getId(), null);;
-                            sqLiteDatabase.close();
-                            Update();
-                        }
-
+                        sharedPreferencesEditor.putString("Current_city","Moscow");
+                        sharedPreferencesEditor.apply();
+                        DatabaseHelper databaseHelper = new DatabaseHelper(layoutInflater.getContext());
+                        databaseHelper.create_db();
+                        sqLiteDatabase = databaseHelper.open();
+                        onCityClickListener.onCityClick(city);
+                        sqLiteDatabase.delete("citiesDatabases", "_id = " + city.getId(), null);;
+                        sqLiteDatabase.close();
+                        Update();
                     }
                 });
                 AlertDialog alertDialog = builder.create();

@@ -4,20 +4,13 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
-import android.view.View;
 
-import androidx.core.view.WindowCompat;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.ArrayList;
@@ -35,14 +28,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewPager2 = findViewById(R.id.viewPager2);
+        viewPager2.setUserInputEnabled(false);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         fragmentArrayList.add(new SettingsFragment());
-        fragmentArrayList.add(new WeatherFragment());
-        fragmentArrayList.add(new ForecastFragment());
+        fragmentArrayList.add(new WeatherFragment0());
+        fragmentArrayList.add(new ForecastFragment0());
+        fragmentArrayList.add(new CultureFragment());
 
         ViewPagerAdapter2 viewPagerAdapter2 = new ViewPagerAdapter2(this,fragmentArrayList);
+
         viewPager2.setAdapter(viewPagerAdapter2);
-        viewPager2.setCurrentItem(1);
+        viewPager2.setCurrentItem(1, false
+        );
+
         bottomNavigationView.setSelectedItemId(R.id.itWeather);
 
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -58,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
                     case 2:
                         bottomNavigationView.setSelectedItemId(R.id.itForecast);
                         break;
+                    case 3:
+                        bottomNavigationView.setSelectedItemId(R.id.itCulture);
                 }
                 super.onPageSelected(position);
             }
@@ -74,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.itForecast:
                         viewPager2.setCurrentItem(2);
+                        break;
+                    case R.id.itCulture:
+                        viewPager2.setCurrentItem(3);
                         break;
                 }
                 return true;

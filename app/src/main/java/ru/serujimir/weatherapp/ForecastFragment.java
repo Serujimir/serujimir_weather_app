@@ -104,7 +104,7 @@ public class ForecastFragment extends Fragment {
         super.onResume();
         Log.d("Test", current_city);
         sharedPreferences = getActivity().getSharedPreferences("Current_city",MODE_PRIVATE);
-        if(!current_city.equals(sharedPreferences.getString("Current_city","Yakutsk"))) {
+        if(!current_city.equals(sharedPreferences.getString("Current_city","Moscow"))) {
             init();
         }
     }

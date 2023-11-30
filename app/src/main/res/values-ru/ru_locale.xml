@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hintAddCity">Введите город:</string>
+    <string name="hintAddCityExample">Например: Якутск</string>
+    <string name="add">Добавить</string>
+    <string name="close">Закрыть</string>
+    <string name="loading">Загрузка</string>
+    <string name="primeta_example">ха-ха</string>
+    <string name="primeta_title_example">Вау</string>
+    <string name="week_forecast_title">"Прогноз для: "</string>
+    <string name="current_city">"Текущий город: "</string>
+    <string name="add_city">Добавить город</string>
+    <string name="delete_confirmation">"Вы действительно хотите удалить: "</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="city_verifying">Проверка города...</string>
+    <string name="unvailable_city">Недоступный город</string>
+    <string name="error">Ошибка...</string>
+    <string name="city_not_found">Город не найден</string>
+    <string name="city_added">Город добавлен!</string>
+    <string name="json_parse_failed">Неудачный парсинг JSON</string>
+    <string name="timeout">Тайм-аут</string>
+    <string name="fill_fields">Заполните все поля!</string>
+    <string name="duplicate_city">Такой город уже есть!</string>
+    <string name="no_internet">Нет интернета</string>
+    <string name="wind">Ветер:</string>
+    <string name="speed">Скорость:</string>
+    <string name="meter_sec">метров/сек</string>
+    <string name="degrees">Направление:</string>
+    <string name="sun">Солнце:</string>
+    <string name="sunset">Закат:</string>
+    <string name="sunrise">Восход:</string>
+    <string name="visibility">Видимость:</string>
+    <string name="meters">метров</string>
+    <string name="humidity">Влажность:</string>
+    <string name="pressure">Давление:</string>
+    <string name="mm">мм</string>
+    <string name="coordinates">Координаты</string>
+    <string name="longitude">Долгота:</string>
+    <string name="latitude">Широта:</string>
+    <string name="forecasting">Прогнозируем...</string>
+    <string name="loading_with_points">Загрузка...</string>
+</resources>

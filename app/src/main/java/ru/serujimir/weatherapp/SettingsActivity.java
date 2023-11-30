@@ -69,7 +69,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void init() {
 
-        tvCurrCity.setText("Current city: " + sharedPreferences.getString("Current_city","Yakutsk").substring(0,1).toUpperCase() +
+        tvCurrCity.setText(R.string.current_city + sharedPreferences.getString("Current_city","Yakutsk").substring(0,1).toUpperCase() +
                 sharedPreferences.getString("Current_city","Yakutsk").substring(1).toLowerCase());
 
         cityArrayList = new ArrayList<>();
@@ -79,7 +79,7 @@ public class SettingsActivity extends AppCompatActivity {
         CityAdapter.OnCityClickListener onCityClickListener = new CityAdapter.OnCityClickListener() {
             @Override
             public void onCityClick(City city) {
-                tvCurrCity.setText("Current city: " + sharedPreferences.getString("Current_city","Yakutsk").substring(0,1).toUpperCase() +
+                tvCurrCity.setText(R.string.current_city + sharedPreferences.getString("Current_city","Yakutsk").substring(0,1).toUpperCase() +
                         sharedPreferences.getString("Current_city","Yakutsk").substring(1).toLowerCase());
             }
         };
@@ -91,7 +91,7 @@ public class SettingsActivity extends AppCompatActivity {
         citiesDatabase = databaseHelper.open();
         cursor = citiesDatabase.rawQuery("select * from " + DatabaseHelper.TABLE, null);
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("City verifying...");
+        progressDialog.setTitle(R.string.city_verifying);
         progressDialog.setCanceledOnTouchOutside(false);
 
         if (cursor.moveToFirst()) {
@@ -166,7 +166,7 @@ public class SettingsActivity extends AppCompatActivity {
                                                         progressDialog.dismiss();
                                                     }
                                                 });
-                                                Toast.makeText(getApplicationContext(), "Unvailable city!", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(), R.string.unvailable_city, Toast.LENGTH_SHORT).show();
                                             }
                                         });
                                     }
@@ -180,14 +180,14 @@ public class SettingsActivity extends AppCompatActivity {
                                                 response_code = (int) jsonObjectObs.get("cod");
                                             }catch (Exception e)
                                             {
-                                                Toast.makeText(getApplicationContext(), "Error...", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
                                             }
                                             if(response_code == 404 || response_code == 0)  {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
                                                         progressDialog.dismiss();
-                                                        Toast.makeText(getApplicationContext(), "City not found", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getApplicationContext(), R.string.city_not_found, Toast.LENGTH_SHORT).show();
                                                     }
                                                 });
                                             }
@@ -209,7 +209,7 @@ public class SettingsActivity extends AppCompatActivity {
                                                             public void run() {
                                                                 alertDialog.dismiss();
                                                                 progressDialog.dismiss();
-                                                                Toast.makeText(getApplicationContext(), "City added!", Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(getApplicationContext(), R.string.city_added, Toast.LENGTH_SHORT).show();
                                                             }
                                                         });
                                                         cityAdapter.Update();
@@ -222,7 +222,7 @@ public class SettingsActivity extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     progressDialog.dismiss();
-                                                    Toast.makeText(getApplicationContext(), "JSON parse failed!", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getApplicationContext(), R.string.json_parse_failed, Toast.LENGTH_SHORT).show();
                                                 }
                                             });
                                         }
@@ -240,7 +240,7 @@ public class SettingsActivity extends AppCompatActivity {
                                                 progressDialog.dismiss();
                                             }
                                         });
-                                        Toast.makeText(getApplicationContext(), "Timeout", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), R.string.timeout, Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -255,7 +255,7 @@ public class SettingsActivity extends AppCompatActivity {
                                             progressDialog.dismiss();
                                         }
                                     });
-                                    Toast.makeText(getApplicationContext(), "Fill the field!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), R.string.fill_fields, Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }

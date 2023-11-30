@@ -130,7 +130,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
         view = inflater.inflate(R.layout.fragment_settings, container, false);
         tvCurrCity = view.findViewById(R.id.tvCurrCity);
         sharedPreferences = getContext().getSharedPreferences("Current_city", MODE_PRIVATE);
-        activity_city = sharedPreferences.getString("Current_city", "Yakutsk");
+        activity_city = sharedPreferences.getString("Current_city", "Moscow");
 
 
         getActivity().runOnUiThread(new Runnable() {
@@ -145,8 +145,8 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
     public void init() {
 
 
-        tvCurrCity.setText("Current city: " + sharedPreferences.getString("Current_city","Yakutsk").substring(0,1).toUpperCase() +
-                sharedPreferences.getString("Current_city","Yakutsk").substring(1).toLowerCase());
+        tvCurrCity.setText(getString(R.string.current_city) + sharedPreferences.getString("Current_city","Moscow").substring(0,1).toUpperCase() +
+                sharedPreferences.getString("Current_city","Moscow").substring(1).toLowerCase());
 
         btnAddCity = view.findViewById(R.id.btnAddCity);
         btnAddCity.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +190,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                                     Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
                                     OkHttpClient okHttpClient = new OkHttpClient();
                                     Request request = new Request.Builder()
-                                            .url("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=23df53519973b7a0f5b39b79e5b9aec4")
+                                            .url("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=23df53519973b7a0f5b39b79e5b9aec4&lang=ru")
                                             .get()
                                             .build();
                                     Log.d("Test", "Request builder!");
@@ -211,7 +211,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                                                                 progressDialog.dismiss();
                                                             }
                                                         });
-                                                        Toast.makeText(getContext(), "Unvailable city!", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getContext(), R.string.unvailable_city, Toast.LENGTH_SHORT).show();
                                                     }
                                                 });
                                             }
@@ -230,7 +230,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                                                             @Override
                                                             public void run() {
                                                                 progressDialog.dismiss();
-                                                                Toast.makeText(getContext(), "Error, City not found", Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(getContext(), R.string.city_not_found, Toast.LENGTH_SHORT).show();
                                                             }
                                                         });
                                                         return;
@@ -240,7 +240,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                                                             @Override
                                                             public void run() {
                                                                 progressDialog.dismiss();
-                                                                Toast.makeText(getContext(), "City not found", Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(getContext(), R.string.city_not_found, Toast.LENGTH_SHORT).show();
                                                             }
                                                         });
                                                         return;
@@ -254,13 +254,17 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
 
                                                         int cityId = cursor.getColumnIndex("city");
                                                         cursor.moveToFirst();
-                                                        databaseCities = cursor.getString(cityId);
+                                                        try {
+                                                            databaseCities = cursor.getString(cityId);
+                                                        } catch (Exception e) {
+                                                            databaseCities = "";
+                                                        }
 
                                                         if(Objects.equals(databaseCities, responce_city)) {
                                                             requireActivity().runOnUiThread(new Runnable() {
                                                                 @Override
                                                                 public void run() {
-                                                                    Toast.makeText(getContext(), "Duplicate city!", Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(getContext(), R.string.duplicate_city, Toast.LENGTH_SHORT).show();
                                                                 }
                                                             });
                                                             progressDialog.dismiss();
@@ -275,7 +279,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                                                                         requireActivity().runOnUiThread(new Runnable() {
                                                                             @Override
                                                                             public void run() {
-                                                                                Toast.makeText(getContext(), "Duplicate city!", Toast.LENGTH_SHORT).show();
+                                                                                Toast.makeText(getContext(), R.string.duplicate_city, Toast.LENGTH_SHORT).show();
                                                                             }
                                                                         });
                                                                         progressDialog.dismiss();
@@ -314,7 +318,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                                                                     public void run() {
                                                                         alertDialog.dismiss();
                                                                         progressDialog.dismiss();
-                                                                        Toast.makeText(getContext(), "City added!", Toast.LENGTH_SHORT).show();
+                                                                        Toast.makeText(getContext(), R.string.city_added, Toast.LENGTH_SHORT).show();
                                                                     }
                                                                 });
                                                                 cityAdapter.Update();
@@ -327,7 +331,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                                                         @Override
                                                         public void run() {
                                                             progressDialog.dismiss();
-                                                            Toast.makeText(getContext(), "JSON parse failed!", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getContext(), R.string.json_parse_failed, Toast.LENGTH_SHORT).show();
                                                         }
                                                     });
                                                 }
@@ -345,7 +349,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                                                         progressDialog.dismiss();
                                                     }
                                                 });
-                                                Toast.makeText(getContext(), "Timeout", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getContext(), R.string.timeout, Toast.LENGTH_SHORT).show();
                                             }
                                         });
                                     }
@@ -360,7 +364,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                                                     progressDialog.dismiss();
                                                 }
                                             });
-                                            Toast.makeText(getContext(), "Fill the field!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), R.string.fill_fields, Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -383,8 +387,8 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tvCurrCity.setText("Current city: " + sharedPreferences.getString("Current_city","Yakutsk").substring(0,1).toUpperCase() +
-                                sharedPreferences.getString("Current_city","Yakutsk").substring(1).toLowerCase());
+                        tvCurrCity.setText(getString(R.string.current_city) + sharedPreferences.getString("Current_city","Moscow").substring(0,1).toUpperCase() +
+                                sharedPreferences.getString("Current_city","Moscow").substring(1).toLowerCase());
                     }
                 });
             }
@@ -430,8 +434,8 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                tvCurrCity.setText("Current city: " + sharedPreferences.getString("Current_city","Yakutsk").substring(0,1).toUpperCase() +
-                        sharedPreferences.getString("Current_city","Yakutsk").substring(1).toLowerCase());
+                tvCurrCity.setText(getString(R.string.current_city) + sharedPreferences.getString("Current_city","Moscow").substring(0,1).toUpperCase() +
+                        sharedPreferences.getString("Current_city","Moscow").substring(1).toLowerCase());
             }
         });
     }

@@ -16,7 +16,7 @@
             android:layout_marginBottom="16dp"
             android:fontFamily="sans-serif-smallcaps"
             android:gravity="center"
-            android:text="@string/hint_addCity" />
+            android:text="@string/hintAddCity" />
 
         <EditText
             android:id="@+id/edCity"
@@ -25,7 +25,7 @@
             android:layout_marginBottom="16dp"
             android:ems="10"
             android:fontFamily="sans-serif-smallcaps"
-            android:hint="@string/hint_hintAddCity"
+            android:hint="@string/hintAddCityExample"
             android:inputType="text" />
 
         <Button

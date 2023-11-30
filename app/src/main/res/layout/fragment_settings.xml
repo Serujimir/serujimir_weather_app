@@ -30,7 +30,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="sans-serif-smallcaps"
-        android:text="Add city"
+        android:text="@string/add_city"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -43,7 +43,7 @@
         android:background="@android:drawable/screen_background_dark_transparent"
         android:fontFamily="sans-serif-smallcaps"
         android:padding="8dp"
-        android:text="Current city: Yakutsk"
+        android:text="@string/current_city"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
