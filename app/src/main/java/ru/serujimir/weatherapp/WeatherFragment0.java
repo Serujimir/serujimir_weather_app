@@ -228,7 +228,12 @@ public class WeatherFragment0 extends Fragment implements CityAdapter.OnCityClic
                         .addConverterFactory(GsonConverterFactory.create(gson))
                         .build();
             JsonHolderApi jsonHolderApi = retrofit.create(JsonHolderApi.class);
-            retrofit2.Call<DayCast> dayCastCall = jsonHolderApi.getDayCast(current_city,"23df53519973b7a0f5b39b79e5b9aec4","metric","ru");
+            sharedPreferences = getActivity().getSharedPreferences("Current_city", MODE_PRIVATE);
+            String lang = sharedPreferences.getString("lang", "en");
+            if(lang.equals("sah")){
+                lang = "ru";
+            }
+            retrofit2.Call<DayCast> dayCastCall = jsonHolderApi.getDayCast(current_city,"23df53519973b7a0f5b39b79e5b9aec4","metric",lang);
 
             dayCastCall.enqueue(new retrofit2.Callback<DayCast>() {
                 @Override
@@ -328,8 +333,13 @@ public class WeatherFragment0 extends Fragment implements CityAdapter.OnCityClic
         Thread thread1 = new Thread(new Runnable() {
             @Override
             public void run() {
+                sharedPreferences = getActivity().getSharedPreferences("Current_city", MODE_PRIVATE);
+                String lang = sharedPreferences.getString("lang", "en");
+                if(lang.equals("sah")){
+                    lang = "ru";
+                }
                 Request request = new Request.Builder()
-                        .url("https://api.openweathermap.org/data/2.5/forecast?q=" + current_city + "&appid=23df53519973b7a0f5b39b79e5b9aec4&units=metric&lang=ru")
+                        .url("https://api.openweathermap.org/data/2.5/forecast?q=" + current_city + "&appid=23df53519973b7a0f5b39b79e5b9aec4&units=metric&lang=" + lang)
                         .get()
                         .build();
                 StrictMode.ThreadPolicy threadPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

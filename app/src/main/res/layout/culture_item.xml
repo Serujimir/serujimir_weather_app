@@ -29,22 +29,22 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvCUltureName"
+                    android:id="@+id/tvTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
-                    android:text="Поведение животных"
+                    android:text="@string/primeta_title_0"
                     android:textAlignment="center"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/tvCulture"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvText"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="16dp"
-                    android:text="@string/primeta_example"
+                    android:text="@string/primeta0"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp" />
             </LinearLayout>

@@ -82,8 +82,8 @@ public class CultureFragment extends Fragment {
 //        rvCulture.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rvCulture.setAdapter(cultureAdapter);
 
-        cultureItemArrayList.add(new CultureItem(getString(R.string.primeta_example)));
-        cultureItemArrayList.add(new CultureItem(getString(R.string.primeta_example)));
+        cultureItemArrayList.add(new CultureItem(getString(R.string.primeta_title_1), getString(R.string.primeta1)));
+        cultureItemArrayList.add(new CultureItem(getString(R.string.primeta_title_2), getString(R.string.primeta2)));
 
     }
 

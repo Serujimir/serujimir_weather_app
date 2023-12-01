@@ -30,6 +30,7 @@ public class CultureAdapter extends RecyclerView.Adapter<CultureAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CultureItem cultureItem = cultureList.get(position);
+        holder.title.setText(cultureItem.getTitle());
         holder.text.setText(cultureItem.getText());
     }
 
@@ -39,10 +40,11 @@ public class CultureAdapter extends RecyclerView.Adapter<CultureAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        final TextView text;
+        final TextView text, title;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            text = itemView.findViewById(R.id.tvCulture);
+            title = itemView.findViewById(R.id.tvTitle);
+            text = itemView.findViewById(R.id.tvText);
         }
     }
 }

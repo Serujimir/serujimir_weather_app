@@ -3,7 +3,9 @@ package ru.serujimir.weatherapp;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -80,6 +82,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
     Button btnAddCity;
     View view;
     int database_size;
+    Button btnChangeLanguage;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -130,6 +133,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
         view = inflater.inflate(R.layout.fragment_settings, container, false);
         tvCurrCity = view.findViewById(R.id.tvCurrCity);
         sharedPreferences = getContext().getSharedPreferences("Current_city", MODE_PRIVATE);
+        sharedPreferencesEditor = sharedPreferences.edit();
         activity_city = sharedPreferences.getString("Current_city", "Moscow");
 
 
@@ -144,6 +148,47 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
 
     public void init() {
 
+        final CharSequence[] langs = {getText(R.string.english), getText(R.string.russian), getText(R.string.sakha)};
+
+        btnChangeLanguage = view.findViewById(R.id.btnChangeLanguage);
+        btnChangeLanguage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(getString(R.string.change_language));
+                builder.setItems(langs, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sharedPreferences = getActivity().getSharedPreferences("Current_city", MODE_PRIVATE);
+                        sharedPreferencesEditor = sharedPreferences.edit();
+                        switch (which){
+                            case 0:
+                                sharedPreferencesEditor.putString("lang", "en");
+                                sharedPreferencesEditor.apply();
+                                break;
+                            case 1:
+                                sharedPreferencesEditor.putString("lang", "ru");
+                                sharedPreferencesEditor.apply();
+                                break;
+                            case 2:
+                                sharedPreferencesEditor.putString("lang", "sah");
+                                sharedPreferencesEditor.apply();
+                                break;
+                        }
+                        Locale locale = new Locale(sharedPreferences.getString("lang", "en"));
+                        Locale.setDefault(locale);
+                        Configuration configuration = new Configuration();
+                        configuration.setLocale(locale);
+                        getActivity().getBaseContext().getResources().updateConfiguration(configuration, null);
+
+                        getActivity().finish();
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.show();
+            }
+        });
 
         tvCurrCity.setText(getString(R.string.current_city) + sharedPreferences.getString("Current_city","Moscow").substring(0,1).toUpperCase() +
                 sharedPreferences.getString("Current_city","Moscow").substring(1).toLowerCase());
@@ -187,10 +232,14 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
 
                                     String city = edCity.getText().toString().trim();
 
+                                    String lang = sharedPreferences.getString("lang", "en");
+                                    if(lang == "sah"){
+                                        lang = "ru";
+                                    }
                                     Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
                                     OkHttpClient okHttpClient = new OkHttpClient();
                                     Request request = new Request.Builder()
-                                            .url("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=23df53519973b7a0f5b39b79e5b9aec4&lang=ru")
+                                            .url("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=23df53519973b7a0f5b39b79e5b9aec4&lang=" + lang)
                                             .get()
                                             .build();
                                     Log.d("Test", "Request builder!");

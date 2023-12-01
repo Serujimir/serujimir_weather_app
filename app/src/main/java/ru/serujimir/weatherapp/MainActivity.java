@@ -1,5 +1,7 @@
 package ru.serujimir.weatherapp;
 
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -9,11 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -21,9 +25,19 @@ public class MainActivity extends AppCompatActivity {
     ViewPager2 viewPager2;
     BottomNavigationView bottomNavigationView;
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPreferences = getSharedPreferences("Current_city", MODE_PRIVATE);
+        Locale locale = new Locale(sharedPreferences.getString("lang", "en"));
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.setLocale(locale);
+        getBaseContext().getResources().updateConfiguration(configuration, null);
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

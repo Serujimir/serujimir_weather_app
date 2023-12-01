@@ -1,7 +1,8 @@
 package ru.serujimir.weatherapp;
 
 public class CultureItem {
-    public CultureItem(String text){
+    public CultureItem(String title, String text){
+        this.title=title;
         this.text=text;
     }
     public String getText() {
@@ -13,4 +14,14 @@ public class CultureItem {
     }
 
     private String text;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    private String title;
 }

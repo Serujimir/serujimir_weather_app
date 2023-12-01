@@ -178,7 +178,12 @@ public class ForecastFragment0 extends Fragment {
                         .addConverterFactory(GsonConverterFactory.create(gson))
                         .build();
                 JsonHolderApi jsonHolderApi = retrofit.create(JsonHolderApi.class);
-                Call<WeekCast> weekCastCall = jsonHolderApi.getWeekCast(current_city,"23df53519973b7a0f5b39b79e5b9aec4","metric","ru");
+                sharedPreferences = getActivity().getSharedPreferences("Current_city", MODE_PRIVATE);
+                String lang = sharedPreferences.getString("lang", "en");
+                if(lang.equals("sah")){
+                    lang = "ru";
+                }
+                Call<WeekCast> weekCastCall = jsonHolderApi.getWeekCast(current_city,"23df53519973b7a0f5b39b79e5b9aec4","metric",lang);
 
                 weekCastCall.enqueue(new Callback<WeekCast>() {
                     @Override
