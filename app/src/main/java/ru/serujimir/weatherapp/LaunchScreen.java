@@ -17,6 +17,13 @@ public class LaunchScreen extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPreferences = getSharedPreferences("Current_city", MODE_PRIVATE);
+        Locale locale = new Locale(sharedPreferences.getString("lang", "en"));
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.setLocale(locale);
+        getBaseContext().getResources().updateConfiguration(configuration, null);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_screen);
 
@@ -24,12 +31,6 @@ public class LaunchScreen extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                sharedPreferences = getSharedPreferences("Current_city", MODE_PRIVATE);
-                Locale locale = new Locale(sharedPreferences.getString("lang", "en"));
-                Locale.setDefault(locale);
-                Configuration configuration = new Configuration();
-                configuration.setLocale(locale);
-                getBaseContext().getResources().updateConfiguration(configuration, null);
                 Intent intent = new Intent(LaunchScreen.this, MainActivity.class);
                 startActivity(intent);
                 finish();
