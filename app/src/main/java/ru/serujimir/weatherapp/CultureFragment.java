@@ -1,8 +1,11 @@
 package ru.serujimir.weatherapp;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
@@ -71,19 +74,18 @@ public class CultureFragment extends Fragment {
         return view;
     }
     public void init(){
-        ViewPager2 rvCulture;
-        rvCulture = view.findViewById(R.id.rvCulture);
-
-        Log.d("BBB", "init()");
-
         ArrayList<CultureItem> cultureItemArrayList = new ArrayList<>();
 
+        RecyclerView rvCulture;
+        rvCulture = view.findViewById(R.id.rvCulture);
+        rvCulture.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
         CultureAdapter cultureAdapter = new CultureAdapter(getContext(), cultureItemArrayList);
-//        rvCulture.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rvCulture.setAdapter(cultureAdapter);
 
-        cultureItemArrayList.add(new CultureItem(getString(R.string.primeta_title_1), getString(R.string.primeta1)));
-        cultureItemArrayList.add(new CultureItem(getString(R.string.primeta_title_2), getString(R.string.primeta2)));
+        cultureItemArrayList.add(new CultureItem(getString(R.string.primeta_title_3), getString(R.string.primeta3), getResources().getDrawable(R.drawable.primeta3)));
+        cultureItemArrayList.add(new CultureItem(getString(R.string.primeta_title_1), getString(R.string.primeta1), getResources().getDrawable(R.drawable.primeta1)));
+        cultureItemArrayList.add(new CultureItem(getString(R.string.primeta_title_2), getString(R.string.primeta2), getResources().getDrawable(R.drawable.primeta2)));
 
     }
 

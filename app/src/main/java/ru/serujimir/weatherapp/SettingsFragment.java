@@ -182,7 +182,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                         getActivity().getBaseContext().getResources().updateConfiguration(configuration, null);
 
                         getActivity().finish();
-                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        Intent intent = new Intent(getContext(), LaunchScreen.class);
                         startActivity(intent);
                     }
                 });
@@ -190,7 +190,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
             }
         });
 
-        tvCurrCity.setText(getString(R.string.current_city) + sharedPreferences.getString("Current_city","Moscow").substring(0,1).toUpperCase() +
+        tvCurrCity.setText(getString(R.string.current_city) + " " + sharedPreferences.getString("Current_city","Moscow").substring(0,1).toUpperCase() +
                 sharedPreferences.getString("Current_city","Moscow").substring(1).toLowerCase());
 
         btnAddCity = view.findViewById(R.id.btnAddCity);
@@ -436,7 +436,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tvCurrCity.setText(getString(R.string.current_city) + sharedPreferences.getString("Current_city","Moscow").substring(0,1).toUpperCase() +
+                        tvCurrCity.setText(getString(R.string.current_city) + " " + sharedPreferences.getString("Current_city","Moscow").substring(0,1).toUpperCase() +
                                 sharedPreferences.getString("Current_city","Moscow").substring(1).toLowerCase());
                     }
                 });

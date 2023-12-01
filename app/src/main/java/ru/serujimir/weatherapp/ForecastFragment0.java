@@ -135,7 +135,7 @@ public class ForecastFragment0 extends Fragment {
         tvWeekForecast = view.findViewById(R.id.tvWeekForecast);
         sharedPreferences = getActivity().getSharedPreferences("Current_city",MODE_PRIVATE);
         current_city = sharedPreferences.getString("Current_city","Moscow");
-        tvWeekForecast.setText(getString(R.string.week_forecast_title) + current_city);
+        tvWeekForecast.setText(getString(R.string.week_forecast_title) + " " + current_city);
 
 
         weekForecastArrayList.clear();

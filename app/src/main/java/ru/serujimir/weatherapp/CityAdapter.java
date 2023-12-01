@@ -31,7 +31,9 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor sharedPreferencesEditor;
     private OnCityClickListener onCityClickListener;
+    private Context context;
     CityAdapter(Context context,List<City> cityList, OnCityClickListener onCityClickListener) {
+        this.context=context;
         this.cityList=cityList;
         this.layoutInflater=LayoutInflater.from(context);
         this.onCityClickListener = onCityClickListener;
@@ -54,7 +56,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(layoutInflater.getContext());
-                builder.setTitle(R.string.delete_confirmation +city.getCity() + " ?");
+                builder.setTitle(context.getString(R.string.delete_confirmation) + " " + city.getCity() + " ?");
                 builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
