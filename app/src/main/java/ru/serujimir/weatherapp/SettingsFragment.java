@@ -63,6 +63,7 @@ import okhttp3.Response;
  */
 public class SettingsFragment extends Fragment implements CityAdapter.OnCityClickListener {
     CityAdapter.OnCityClickListener onCityClickListener;
+    private static final String DEF_CITY = "Москва";
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor sharedPreferencesEditor;
@@ -134,7 +135,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
         tvCurrCity = view.findViewById(R.id.tvCurrCity);
         sharedPreferences = getContext().getSharedPreferences("Current_city", MODE_PRIVATE);
         sharedPreferencesEditor = sharedPreferences.edit();
-        activity_city = sharedPreferences.getString("Current_city", "Moscow");
+        activity_city = sharedPreferences.getString("Current_city", DEF_CITY);
 
 
         getActivity().runOnUiThread(new Runnable() {
@@ -175,7 +176,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                                 sharedPreferencesEditor.apply();
                                 break;
                         }
-                        Locale locale = new Locale(sharedPreferences.getString("lang", "en"));
+                        Locale locale = new Locale(sharedPreferences.getString("lang", "ru"));
                         Locale.setDefault(locale);
                         Configuration configuration = new Configuration();
                         configuration.setLocale(locale);
@@ -190,8 +191,8 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
             }
         });
 
-        tvCurrCity.setText(getString(R.string.current_city) + " " + sharedPreferences.getString("Current_city","Moscow").substring(0,1).toUpperCase() +
-                sharedPreferences.getString("Current_city","Moscow").substring(1).toLowerCase());
+        tvCurrCity.setText(getString(R.string.current_city) + " " + sharedPreferences.getString("Current_city",DEF_CITY).substring(0,1).toUpperCase() +
+                sharedPreferences.getString("Current_city",DEF_CITY).substring(1).toLowerCase());
 
         btnAddCity = view.findViewById(R.id.btnAddCity);
         btnAddCity.setOnClickListener(new View.OnClickListener() {
@@ -232,7 +233,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
 
                                     String city = edCity.getText().toString().trim();
 
-                                    String lang = sharedPreferences.getString("lang", "en");
+                                    String lang = sharedPreferences.getString("lang", "ru");
                                     if(lang == "sah"){
                                         lang = "ru";
                                     }
@@ -436,8 +437,8 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tvCurrCity.setText(getString(R.string.current_city) + " " + sharedPreferences.getString("Current_city","Moscow").substring(0,1).toUpperCase() +
-                                sharedPreferences.getString("Current_city","Moscow").substring(1).toLowerCase());
+                        tvCurrCity.setText(getString(R.string.current_city) + " " + sharedPreferences.getString("Current_city",DEF_CITY).substring(0,1).toUpperCase() +
+                                sharedPreferences.getString("Current_city",DEF_CITY).substring(1).toLowerCase());
                     }
                 });
             }
@@ -450,7 +451,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
         citiesDatabase = databaseHelper.open();
         cursor = citiesDatabase.rawQuery("select * from " + DatabaseHelper.TABLE, null);
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("City verifying...");
+        progressDialog.setTitle(getString(R.string.city_verifying));
         progressDialog.setCanceledOnTouchOutside(false);
 
         if (cursor.moveToFirst()) {
@@ -483,8 +484,8 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                tvCurrCity.setText(getString(R.string.current_city) + sharedPreferences.getString("Current_city","Moscow").substring(0,1).toUpperCase() +
-                        sharedPreferences.getString("Current_city","Moscow").substring(1).toLowerCase());
+                tvCurrCity.setText(getString(R.string.current_city) + sharedPreferences.getString("Current_city",DEF_CITY).substring(0,1).toUpperCase() +
+                        sharedPreferences.getString("Current_city",DEF_CITY).substring(1).toLowerCase());
             }
         });
     }

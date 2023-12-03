@@ -76,6 +76,7 @@ public class WeatherFragment0 extends Fragment implements CityAdapter.OnCityClic
 
 //    ImageView imTurbine;
     ProgressDialog progressDialog;
+    private static final String DEF_CITY = "Москва";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -122,7 +123,7 @@ public class WeatherFragment0 extends Fragment implements CityAdapter.OnCityClic
         super.onResume();
         Log.d("Test", current_city);
         sharedPreferences = getActivity().getSharedPreferences("Current_city",MODE_PRIVATE);
-        if(!current_city.equals(sharedPreferences.getString("Current_city","Moscow"))) {
+        if(!current_city.equals(sharedPreferences.getString("Current_city",DEF_CITY))) {
             init();
         }
     }
@@ -134,7 +135,7 @@ public class WeatherFragment0 extends Fragment implements CityAdapter.OnCityClic
         view = inflater.inflate(R.layout.fragment_weather, container, false);
 
         sharedPreferences = getActivity().getSharedPreferences("Current_city",MODE_PRIVATE);
-        current_city = sharedPreferences.getString("Current_city","Moscow");
+        current_city = sharedPreferences.getString("Current_city",DEF_CITY);
 
 
         progressDialog = new ProgressDialog(getContext());
@@ -174,7 +175,7 @@ public class WeatherFragment0 extends Fragment implements CityAdapter.OnCityClic
         dayForecastArrayList.clear();
         weatherSubItemArrayList.clear();
         sharedPreferences = getActivity().getSharedPreferences("Current_city",MODE_PRIVATE);
-        current_city = sharedPreferences.getString("Current_city","Moscow");
+        current_city = sharedPreferences.getString("Current_city",DEF_CITY);
 
         weatherSubItemAdapter = new WeatherSubItemAdapter(getContext(), weatherSubItemArrayList);
         rvWeatherSubItem.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -229,7 +230,7 @@ public class WeatherFragment0 extends Fragment implements CityAdapter.OnCityClic
                         .build();
             JsonHolderApi jsonHolderApi = retrofit.create(JsonHolderApi.class);
             sharedPreferences = getActivity().getSharedPreferences("Current_city", MODE_PRIVATE);
-            String lang = sharedPreferences.getString("lang", "en");
+            String lang = sharedPreferences.getString("lang", "ru");
             if(lang.equals("sah")){
                 lang = "ru";
             }
@@ -334,7 +335,7 @@ public class WeatherFragment0 extends Fragment implements CityAdapter.OnCityClic
             @Override
             public void run() {
                 sharedPreferences = getActivity().getSharedPreferences("Current_city", MODE_PRIVATE);
-                String lang = sharedPreferences.getString("lang", "en");
+                String lang = sharedPreferences.getString("lang", "ru");
                 if(lang.equals("sah")){
                     lang = "ru";
                 }

@@ -1,5 +1,7 @@
 package ru.serujimir.weatherapp;
 
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
@@ -26,11 +29,12 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPreferences = getSharedPreferences("Current_city", MODE_PRIVATE);
-        Locale locale = new Locale(sharedPreferences.getString("lang", "en"));
+        Locale locale = new Locale(sharedPreferences.getString("lang", "ru"));
         Locale.setDefault(locale);
         Configuration configuration = new Configuration();
         configuration.setLocale(locale);
@@ -96,5 +100,34 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        if (sharedPreferences.getBoolean("is_first_launch", true)){
+            editor = sharedPreferences.edit();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setTitle("Предлагаем вам добавить свой город:");
+            builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    editor.putBoolean("is_first_launch", false);
+                    editor.apply();
+                    editor.commit();
+                    return;
+                }
+            });
+            builder.setPositiveButton("Хорошо", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    editor.putBoolean("is_first_launch", false);
+                    editor.apply();
+                    editor.commit();
+                    viewPager2.setCurrentItem(0, true);
+                    return;
+                }
+            });
+            builder.show();
+        }
+
+
     }
 }

@@ -64,6 +64,7 @@ public class ForecastFragment0 extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
+    private static final String DEF_CITY = "Москва";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
@@ -105,7 +106,7 @@ public class ForecastFragment0 extends Fragment {
         super.onResume();
         Log.d("Test", current_city);
         sharedPreferences = getActivity().getSharedPreferences("Current_city",MODE_PRIVATE);
-        if(!current_city.equals(sharedPreferences.getString("Current_city","Moscow"))) {
+        if(!current_city.equals(sharedPreferences.getString("Current_city",DEF_CITY))) {
             init();
         }
     }
@@ -117,7 +118,7 @@ public class ForecastFragment0 extends Fragment {
         view = inflater.inflate(R.layout.fragment_forecast, container, false);
 
         sharedPreferences = getActivity().getSharedPreferences("Current_city",MODE_PRIVATE);
-        current_city = sharedPreferences.getString("Current_city","Moscow");
+        current_city = sharedPreferences.getString("Current_city",DEF_CITY);
 
         init();
 
@@ -134,7 +135,7 @@ public class ForecastFragment0 extends Fragment {
 
         tvWeekForecast = view.findViewById(R.id.tvWeekForecast);
         sharedPreferences = getActivity().getSharedPreferences("Current_city",MODE_PRIVATE);
-        current_city = sharedPreferences.getString("Current_city","Moscow");
+        current_city = sharedPreferences.getString("Current_city",DEF_CITY);
         tvWeekForecast.setText(getString(R.string.week_forecast_title) + " " + current_city);
 
 
@@ -179,7 +180,7 @@ public class ForecastFragment0 extends Fragment {
                         .build();
                 JsonHolderApi jsonHolderApi = retrofit.create(JsonHolderApi.class);
                 sharedPreferences = getActivity().getSharedPreferences("Current_city", MODE_PRIVATE);
-                String lang = sharedPreferences.getString("lang", "en");
+                String lang = sharedPreferences.getString("lang", "ru");
                 if(lang.equals("sah")){
                     lang = "ru";
                 }
