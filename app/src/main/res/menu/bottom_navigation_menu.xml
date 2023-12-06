@@ -4,18 +4,18 @@
     <item
         android:id="@+id/itSetting"
         android:icon="@drawable/ic_settings"
-        android:title="@string/settings" />
+        android:title="@string/settings"/>
     <item
         android:id="@+id/itWeather"
         android:icon="@drawable/ic_weather"
         android:title="@string/day" />
     <item
         android:id="@+id/itForecast"
-        android:icon="@drawable/ic_forecast"
+        android:icon="@drawable/rainyday"
         android:title="@string/Forecast"
         />
     <item
         android:id="@+id/itCulture"
-        android:icon="@drawable/ic_back"
+        android:icon="@drawable/teamwork"
         android:title="@string/culture"/>
 </menu>

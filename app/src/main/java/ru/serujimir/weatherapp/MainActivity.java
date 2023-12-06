@@ -24,6 +24,10 @@ import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
+    // used attribute
+    // <a href="https://www.flaticon.com/free-icons/culture" title="culture icons">Culture icons created by Freepik - Flaticon</a>
+    // <a href="https://www.flaticon.com/free-icons/collaboration" title="collaboration icons">Collaboration icons created by Smashicons - Flaticon</a>
+    // <a href="https://www.flaticon.com/free-icons/weather" title="weather icons">Weather icons created by Freepik - Flaticon</a>
 
     ViewPager2 viewPager2;
     BottomNavigationView bottomNavigationView;
@@ -46,14 +50,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewPager2 = findViewById(R.id.viewPager2);
-        viewPager2.setUserInputEnabled(false);
+//        viewPager2.setUserInputEnabled(true);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         fragmentArrayList.add(new SettingsFragment());
         fragmentArrayList.add(new WeatherFragment0());
         fragmentArrayList.add(new ForecastFragment0());
         fragmentArrayList.add(new CultureFragment());
 
-        ViewPagerAdapter2 viewPagerAdapter2 = new ViewPagerAdapter2(this,fragmentArrayList);
+        ViewPagerAdapter2 viewPagerAdapter2 = new ViewPagerAdapter2(this, fragmentArrayList);
 
         viewPager2.setAdapter(viewPagerAdapter2);
         viewPager2.setCurrentItem(1, false
@@ -105,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
             editor = sharedPreferences.edit();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-            builder.setTitle("Предлагаем вам добавить свой город:");
-            builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            builder.setTitle(getString(R.string.is_first_launch_title));
+            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     editor.putBoolean("is_first_launch", false);
@@ -115,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
             });
-            builder.setPositiveButton("Хорошо", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     editor.putBoolean("is_first_launch", false);
@@ -123,6 +127,14 @@ public class MainActivity extends AppCompatActivity {
                     editor.commit();
                     viewPager2.setCurrentItem(0, true);
                     return;
+                }
+            });
+            builder.setOnCancelListener(new OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    editor.putBoolean("is_first_launch", false);
+                    editor.apply();
+                    editor.commit();
                 }
             });
             builder.show();

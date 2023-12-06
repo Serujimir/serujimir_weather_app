@@ -121,7 +121,7 @@ public class WeatherFragment0 extends Fragment implements CityAdapter.OnCityClic
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("Test", current_city);
+//        Log.d("Test", current_city);
         sharedPreferences = getActivity().getSharedPreferences("Current_city",MODE_PRIVATE);
         if(!current_city.equals(sharedPreferences.getString("Current_city",DEF_CITY))) {
             init();
@@ -146,7 +146,7 @@ public class WeatherFragment0 extends Fragment implements CityAdapter.OnCityClic
 //        AnimationDrawable animationDrawable = (AnimationDrawable) imTurbine.getDrawable();
 //        animationDrawable.start();
 
-        Log.d("Check", "setContentView() Check!");
+//        Log.d("Check", "setContentView() Check!");
         init();
 
         return view;
@@ -215,7 +215,7 @@ public class WeatherFragment0 extends Fragment implements CityAdapter.OnCityClic
 
         set0.start();
 
-        Log.d("Check", "setAdapter check!");
+//        Log.d("Check", "setAdapter check!");
     }
     public void setInitionalData0() {
         Thread thread0 = new Thread(new Runnable() {
@@ -373,7 +373,7 @@ public class WeatherFragment0 extends Fragment implements CityAdapter.OnCityClic
                                     dayForecastArrayList.clear();
 
                                     for(int i = 0; i < list.length(); i++){
-                                        Log.d("Responce", "for0");
+//                                        Log.d("Responce", "for0");
                                         listObject = list.getJSONObject(i);
 
                                         JSONObject main = listObject.getJSONObject("main");
@@ -388,7 +388,7 @@ public class WeatherFragment0 extends Fragment implements CityAdapter.OnCityClic
                                             String day_temp = String.valueOf(Math.round(main.getDouble("temp")) + "°");
                                             String day_icon = icon;
                                             dayForecastArrayList.add(new DayForecast(day_time,day_temp,day_icon));
-                                            Log.d("Responce",day_time + "   " + day_temp + "   " + day_icon);
+//                                            Log.d("Responce",day_time + "   " + day_temp + "   " + day_icon);
                                         }
                                         else {
                                             break;

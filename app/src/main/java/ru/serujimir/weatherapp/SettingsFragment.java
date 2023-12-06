@@ -198,7 +198,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
         btnAddCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Test", "Button check!");
+//                Log.d("Test", "Button check!");
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 ConstraintLayout constraintLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.add_city, null);
                 builder.setView(constraintLayout);
@@ -217,7 +217,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                 btnAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("Test", "btnAdd pressed!");
+//                        Log.d("Test", "btnAdd pressed!");
                         Thread thread = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -243,12 +243,12 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                                             .url("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=23df53519973b7a0f5b39b79e5b9aec4&lang=" + lang)
                                             .get()
                                             .build();
-                                    Log.d("Test", "Request builder!");
+//                                    Log.d("Test", "Request builder!");
                                     StrictMode.ThreadPolicy threadPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                                     StrictMode.setThreadPolicy(threadPolicy);
                                     try {
                                         Response response = okHttpClient.newCall(request).execute();
-                                        Log.d("Test", "Responce execute!");
+//                                        Log.d("Test", "Responce execute!");
                                         okHttpClient.newCall(request).enqueue(new Callback() {
                                             @Override
                                             public void onFailure(Call call, IOException e) {
@@ -346,7 +346,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
 
 
 
-                                                        Log.d("Test", "onResponce!");
+//                                                        Log.d("Test", "onResponce!");
                                                         Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
                                                         DatabaseHelper databaseHelper1 = new DatabaseHelper(getContext());
                                                         databaseHelper1.create_db();
@@ -498,7 +498,7 @@ public class SettingsFragment extends Fragment implements CityAdapter.OnCityClic
                 database_size++;
             }while (cursor.moveToNext());
         }
-        Log.d("Test", String.valueOf(database_size));
+//        Log.d("Test", String.valueOf(database_size));
         cursor.close();
         citiesDatabase.close();
         return database_size;

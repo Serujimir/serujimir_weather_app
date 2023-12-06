@@ -104,7 +104,7 @@ public class ForecastFragment0 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("Test", current_city);
+//        Log.d("Test", current_city);
         sharedPreferences = getActivity().getSharedPreferences("Current_city",MODE_PRIVATE);
         if(!current_city.equals(sharedPreferences.getString("Current_city",DEF_CITY))) {
             init();
@@ -153,7 +153,7 @@ public class ForecastFragment0 extends Fragment {
         weekForecastArrayList.add(new WeekForecast(getString(R.string.loading),"...","...","01d"));
 
         constraintLayout = view.findViewById(R.id.consLayout);
-        Log.d("Test", "Before runOnUiThread");
+//        Log.d("Test", "Before runOnUiThread");
 
         requireActivity().runOnUiThread(new Runnable() {
             @Override
@@ -168,12 +168,12 @@ public class ForecastFragment0 extends Fragment {
 
             @Override
             public void run() {
-                Log.d("Test", "After runOnUiThread");
+//                Log.d("Test", "After runOnUiThread");
 
                 Gson gson = new GsonBuilder()
                         .setLenient()
                         .create();
-                Log.d("Test", "After Gson builder");
+//                Log.d("Test", "After Gson builder");
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl("https://api.openweathermap.org/data/2.5/")
                         .addConverterFactory(GsonConverterFactory.create(gson))
@@ -191,22 +191,22 @@ public class ForecastFragment0 extends Fragment {
 
                     public void onResponse(Call<WeekCast> call, Response<WeekCast> response) {
                         if(!response.isSuccessful()) {
-                            Log.d("Test", "After call !success");
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Log.d("Test", String.valueOf(response.code()));
-                                }
-                            });
+//                            Log.d("Test", "After call !success");
+//                            getActivity().runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+////                                    Log.d("Test", String.valueOf(response.code()));
+//                                }
+//                            });
                         }
                         else if(response.isSuccessful()) {
-                            Log.d("Test", "After call success");
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Log.d("Test", String.valueOf(response.code()));
-                                }
-                            });
+//                            Log.d("Test", "After call success");
+//                            getActivity().runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    Log.d("Test", String.valueOf(response.code()));
+//                                }
+//                            });
                             weekForecastArrayList.clear();
 
                             WeekCast weekCast = response.body();
@@ -221,7 +221,7 @@ public class ForecastFragment0 extends Fragment {
 
 
                             for(int u = 0; u < weekCast.getList().size(); u++) {
-                                Log.d("Responce", "for1: " + u);
+//                                Log.d("Responce", "for1: " + u);
 
                                 list = weekCast.getList().get(u);
 
@@ -232,11 +232,11 @@ public class ForecastFragment0 extends Fragment {
                                 String now_day = list.getDt_txt().substring(0,10);
                                 String day_time = list.getDt_txt().substring(11);
 
-                                Log.d("Responce", day_time.toString());
+//                                Log.d("Responce", day_time.toString());
 
 
                                 if(now_day.equals(curr_day) || day_time.equals("03:00:00") || day_time.equals("09:00:00") || day_time.equals("15:00:00") || day_time.equals("18:00:00") || day_time.equals("21:00:00") || day_time.equals("00:00:00")) {
-                                    Log.d("Check", "if used! if used! if used!");
+//                                    Log.d("Check", "if used! if used! if used!");
                                 }
                                 else if(day_time.equals("06:00:00")) {
                                     first_temp = String.valueOf(Math.round(main.getTemp_min()) + "°");
@@ -257,7 +257,7 @@ public class ForecastFragment0 extends Fragment {
 
 
                                     weekForecastArrayList.add(new WeekForecast((dayOfWeek.toUpperCase().charAt(0) + dayOfWeek.substring(1)),first_temp,second_temp,week_icon));
-                                    Log.d("Responce", first_temp + "   " + second_temp + "   " + dayOfWeek);
+//                                    Log.d("Responce", first_temp + "   " + second_temp + "   " + dayOfWeek);
                                 }
                                 else {
                                     break;
@@ -289,7 +289,7 @@ public class ForecastFragment0 extends Fragment {
 
                     @Override
                     public void onFailure(Call<WeekCast> call, Throwable t) {
-                        Log.d("Test", t.toString() + "232");
+//                        Log.d("Test", t.toString() + "232");
                     }
                 });
             }

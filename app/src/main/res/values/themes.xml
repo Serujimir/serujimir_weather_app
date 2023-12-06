@@ -5,6 +5,10 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="color">#000000</item>
     </style>
+    <color name="bnvTextColor">#FFFFFF</color>
+    <color name="bnvItemColorTint">#000000</color>
+    <color name="bnvBackgroundColor">#3949AB</color>
+    <color name="bnvItemIconTint">#FFFFFF</color>
 
     <style name="Theme.WeatherApp" parent="Base.Theme.WeatherApp" />
 </resources>

@@ -2,23 +2,35 @@ package ru.serujimir.weatherapp;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 
 public class CultureAdapter extends RecyclerView.Adapter<CultureAdapter.ViewHolder> {
     public final List<CultureItem> cultureList;
     private final LayoutInflater layoutInflater;
+    Context context;
     CultureAdapter(Context context, List<CultureItem> cultureItemList){
+        this.context=context;
         this.cultureList=cultureItemList;
         this.layoutInflater=LayoutInflater.from(context);
     }

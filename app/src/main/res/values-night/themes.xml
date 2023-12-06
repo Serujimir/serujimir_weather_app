@@ -5,4 +5,10 @@
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
         <item name="color">#FFFFFF</item>
     </style>
+    <color name="bnvTextColor">#FFFFFF</color>
+    <color name="bnvItemColorTint">#FFFFFF</color>
+    <color name="bnvBackgroundColor">#3949AB</color>
+    <color name="bnvItemIconTint">#FFFFFF</color>
+
+
 </resources>

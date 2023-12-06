@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="256dp"
-        android:background="#651FFF"
+        android:background="@color/bnvBackgroundColor"
         android:orientation="vertical"
         android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,9 +19,11 @@
 
         <ImageView
             android:id="@+id/imImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="350dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
+            android:scaleType="centerCrop"
             android:src="@drawable/back_image" />
 
         <TextView
@@ -29,7 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="2"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-smallcaps"
             android:foregroundGravity="center"
             android:gravity="center"
             android:text="@string/primeta_title_0"

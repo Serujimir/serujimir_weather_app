@@ -84,6 +84,7 @@ public class CultureFragment extends Fragment {
         rvCulture.setAdapter(cultureAdapter);
 
         cultureItemArrayList.add(new CultureItem(getString(R.string.primeta_title_3), getString(R.string.primeta3), getResources().getDrawable(R.drawable.primeta3)));
+        cultureItemArrayList.add(new CultureItem(getString(R.string.primeta_title_4), getString(R.string.primeta4), getResources().getDrawable(R.drawable.primeta4)));
         cultureItemArrayList.add(new CultureItem(getString(R.string.primeta_title_1), getString(R.string.primeta1), getResources().getDrawable(R.drawable.primeta1)));
         cultureItemArrayList.add(new CultureItem(getString(R.string.primeta_title_2), getString(R.string.primeta2), getResources().getDrawable(R.drawable.primeta2)));
 
